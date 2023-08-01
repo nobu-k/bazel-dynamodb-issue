@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+gazelle(
+    name = "gazelle",
+)
+
+go_library(
+    name = "bazel-dynamodb-issue_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/nobu-k/bazel-dynamodb-issue",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_aws_aws_sdk_go_v2_config//:config",
+        "@com_github_aws_aws_sdk_go_v2_service_dynamodb//:dynamodb",
+    ],
+)
+
+go_binary(
+    name = "bazel-dynamodb-issue",
+    embed = [":bazel-dynamodb-issue_lib"],
+    visibility = ["//visibility:public"],
+)
